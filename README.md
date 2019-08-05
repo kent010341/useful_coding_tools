@@ -2,6 +2,3 @@
 
 ## Finished Tools:
 * DetailRecorder: Easily recording tool.
-
----
-## Unfinished:
