@@ -4,15 +4,21 @@ from datetime import datetime
 
 class DetailRecorder():
     '''
-        Parameters:
-            detail_dir: str
-                Direction of folder used to save the detail file.
-            use_time_as_name: bool, optional (default: True)
-                If true, it will use time as file name.
-            file_name: str, optional (default: None)
-                If use_time_as_name is False, file_name is needed.
-            encoding: str, optional (default: 'utf-8-sig')
-                Encoding type for writing file.
+    Parameters:
+        detail_dir: str
+            The direction of a folder that the document of detail is saved. If detail_dir doesn't exisit, all of the inexistent folder will automatically be created.
+
+        use_time_as_name: bool (default=True)
+            Use current time as file name.
+
+        file_name: str (default=None)
+            Needed if use_time_as_name is False, and it won't be used while use_time_as_name is True.
+
+        encoding: str (default='utf-8-sig')
+            Type of encoding used to write the document.
+
+        show_time: bool (default=False)
+            Add full text of time in front of the input text.
     '''
     def __init__(self, detail_dir, use_time_as_name=True, file_name=None, encoding='utf-8-sig', show_time=False):
         # Check if detail_dir is a string.
