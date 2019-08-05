@@ -11,17 +11,17 @@ DetailRecorder is made for easily recording that may be able to prevant from som
 ---
 ## Parameters:
 * detail_dir: str
-  The direction of a folder that the document of detail is saved.
-  If detail_dir doesn't exisit, all of the inexistent folder will automatically be created.
+  * The direction of a folder that the document of detail is saved. If detail_dir doesn't exisit, all of the inexistent folder will automatically be created.
+
 * use_time_as_name: bool (default=True)
-  Use current time as file name.
+  * Use current time as file name.
 * file_name: str (default=None)
-  Needed if use_time_as_name is False, and it won't be used while use_time_as_name is True.
+  * Needed if use_time_as_name is False, and it won't be used while use_time_as_name is True.
 * encoding: str (default='utf-8-sig')
-  Type of encoding used to write the document.
+  * Type of encoding used to write the document.
 
 ---
 ## Methods:
 * dprint(self, \*strings, enable_var_former=True):
-  **Avaiable for any type!!**
-  Multiple parameters or even no parameter given is avaiable. enable_var_former is defaultly set as True, which will change *list*, *tuple*, *numpy.ndarray*, *dict* into a form that can directly used as a variable for further coding.
+  * **Avaiable for any type!!**
+  * Multiple parameters or even no parameter given is avaiable. enable_var_former is defaultly set as True, which will change *list*, *tuple*, *numpy.ndarray*, *dict* into a form that can directly used as a variable for further coding.
