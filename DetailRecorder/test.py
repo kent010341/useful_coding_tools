@@ -1,7 +1,7 @@
 from DetailRecorder import DetailRecorder
 import numpy as np 
 
-dr = DetailRecorder(detail_dir='output')
+dr = DetailRecorder(detail_dir='output', show_time=True)
 # Test no input
 dr.dprint()
 # Test int input
