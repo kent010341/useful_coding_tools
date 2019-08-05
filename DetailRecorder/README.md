@@ -19,6 +19,8 @@ DetailRecorder is made for easily recording that may be able to prevant from som
   * Needed if use_time_as_name is False, and it won't be used while use_time_as_name is True.
 * encoding: str (default='utf-8-sig')
   * Type of encoding used to write the document.
+* show_time: bool (default=False)
+  * Add full text of time in front of the input text.
 
 ---
 ## Methods:
