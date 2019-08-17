@@ -14,3 +14,10 @@ dr.dprint(1+1j)
 dr.dprint(1, 2.3, 4+5j)
 # Test list and np.ndarray input
 dr.dprint([1, '2', [3, 4], np.array([5, 6, 7])])
+
+# Check empty list and np.ndarray
+dr.dprint([])
+dr.dprint(np.array([]))
+
+# check multi-dimension np.ndarray
+dr.dprint(np.random.uniform(-1, 1, (5,3)))
