@@ -7,16 +7,12 @@ class DetailRecorder():
     Parameters:
         detail_dir: str
             The direction of a folder that the document of detail is saved. If detail_dir doesn't exisit, all of the inexistent folder will automatically be created.
-
         use_time_as_name: bool (default=True)
             Use current time as file name.
-
         file_name: str (default=None)
             Needed if use_time_as_name is False, and it won't be used while use_time_as_name is True.
-
         encoding: str (default='utf-8-sig')
             Type of encoding used to write the document.
-
         show_time: bool (default=False)
             Add full text of time in front of the input text.
     '''
@@ -36,11 +32,11 @@ class DetailRecorder():
         self._check_and_create_dir(detail_dir)
         self._show_time = show_time
 
-    def dprint(self, *strings, enable_var_former=True):
+    def dprint(self, *strings, enable_var_form=True):
         write_string = ''
         for string in strings:
-            if enable_var_former:
-                write_string += self._var_former(string) + ' '
+            if enable_var_form:
+                write_string += self._var_form(string) + ' '
             else:
                 write_string += str(string) + ' '
         write_string = write_string[:-1]
@@ -53,15 +49,10 @@ class DetailRecorder():
         with open(self._full_dir_, 'a', encoding=self._encoding_) as fp:
             fp.write(write_string)
 
-    def _var_former(self, var):
+    def _var_form(self, var):
         # This method is made for making variable easily being copied to use in further coding.
-
-        # check int, float, string.
-        if type(var) in [int, float, str, complex, np.int_, np.float_, np.complex_]:
-            return str(var)
-
         # check list, np.ndarray, tuple
-        elif type(var) in [list, np.ndarray, tuple]:
+        if type(var) in [list, np.ndarray, tuple]:
             if isinstance(var, list):
                 temp_str, end_str = '[', ']'
             elif isinstance(var, np.ndarray):
@@ -69,20 +60,28 @@ class DetailRecorder():
             elif isinstance(var, tuple):
                 temp_str, end_str = '(', ')'
 
-            for v in var:
-                temp_str += self._var_former(v) + ', '
-            temp_str = temp_str[:-2] + end_str
+            if len(var) != 0:
+                for v in var:
+                    if isinstance(var, np.ndarray):
+                        temp_str += self._var_form(v.tolist()) + ', '
+                    else:
+                        temp_str += self._var_form(v) + ', '
+                temp_str = temp_str[:-2] + end_str
+            else:
+                temp_str += end_str
 
             return temp_str
 
         # check dict
         elif isinstance(var, dict):
-            temp_str = '{'
-            for key, value in var.items():
-                temp_str += '{:}: {:}, '.format(self._var_former(key), self._var_former(value))
-            temp_str = temp_str[:-2] + '}'
-            return temp_str
-
+            if len(var) != 0:
+                temp_str = '{'
+                for key, value in var.items():
+                    temp_str += '{:}: {:}, '.format(self._var_form(key), self._var_form(value))
+                temp_str = temp_str[:-2] + '}'
+                return temp_str
+            else:
+                return '{}'
         else:
             return str(var)
 
