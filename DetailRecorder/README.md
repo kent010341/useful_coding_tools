@@ -27,3 +27,5 @@ DetailRecorder is made for easily recording that may be able to prevant from som
 * dprint(self, \*strings, enable_var_former=True):
   * **Avaiable for any type!!**
   * Multiple parameters or even no parameter given is avaiable. enable_var_former is defaultly set as True, which will change *list*, *tuple*, *numpy.ndarray*, *dict* into a form that can directly used as a variable for further coding.
+* dprint_line(self, symbol, times=60):
+  * Write a separating line with the given symbol for the given times.
