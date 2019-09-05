@@ -40,14 +40,13 @@ class DetailRecorder():
             else:
                 write_string += str(string) + ' '
         write_string = write_string[:-1]
-        if self._show_time:
-            write_string = '<{:}> {:}'.format(datetime.now().strftime('%Y/%m/%d %H:%M:%S.%f'), write_string)
+        self._write_to_file(write_string)
 
-        if os.path.exists(self._full_dir_):
-            write_string = '\n' + write_string
-        # write
-        with open(self._full_dir_, 'a', encoding=self._encoding_) as fp:
-            fp.write(write_string)
+    def dprint_line(self, symbol, times=60):
+        write_string = ''
+        for i in range(times):
+            write_string += symbol
+        self._write_to_file(write_string)
 
     def _var_form(self, var):
         # This method is made for making variable easily being copied to use in further coding.
@@ -93,3 +92,15 @@ class DetailRecorder():
             if not os.path.isdir(current_dir):
                 os.mkdir(current_dir)
             current_dir += '/'
+
+    def _write_to_file(self, string):
+        if self._show_time:
+            write_string = '<{:}> {:}'.format(datetime.now().strftime('%Y/%m/%d %H:%M:%S.%f'), string)
+        else:
+            write_string = string
+
+        if os.path.exists(self._full_dir_):
+            write_string = '\n' + write_string
+        # write
+        with open(self._full_dir_, 'a', encoding=self._encoding_) as fp:
+            fp.write(write_string)
