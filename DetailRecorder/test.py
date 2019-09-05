@@ -21,3 +21,6 @@ dr.dprint(np.array([]))
 
 # check multi-dimension np.ndarray
 dr.dprint(np.random.uniform(-1, 1, (5,3)))
+
+# check separating line
+dr.dprint_line('=', 60)
