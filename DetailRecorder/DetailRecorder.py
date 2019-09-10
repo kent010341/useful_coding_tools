@@ -43,7 +43,7 @@ class DetailRecorder():
         self._write_to_file(write_string)
 
     def dprint_line(self, symbol, times=60):
-        write_string = symbol * times
+        write_string = str(symbol) * times
         self._write_to_file(write_string)
 
     def _var_form(self, var):
