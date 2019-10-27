@@ -1,4 +1,5 @@
 # useful_coding_tools
 
 ## Finished Tools:
-* DetailRecorder: Easily recording tool.
+* DetailRecorder: Convenient recording tool.
+* ErrorCal: Regression loss calculating tool.
