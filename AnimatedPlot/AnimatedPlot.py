@@ -13,11 +13,11 @@ class AnimatedPlot():
         for key in self._scatter_key:
             self._scatter_storage[key] = list()
 
-        self.min_x = np.inf
-        self.max_x = -np.inf
-        self.min_y = np.inf
-        self.max_y = -np.inf
-        self.max_data_num = 0
+        self._min_x = np.inf
+        self._max_x = -np.inf
+        self._min_y = np.inf
+        self._max_y = -np.inf
+        self._max_data_num = 0
         self._has_label = False
 
     def plot(self, *xy_data, fixed=False, color=None, c=None, marker=None, linestyle=None, ls=None, linewidth=None, lw=None, label=None):
@@ -29,20 +29,20 @@ class AnimatedPlot():
         else:
             raise ValueError('Too many parameters given.')
         if not self._has_label:
-            if not isinstance(label, type(None)):
+            if isinstance(label, type(None)):
                 self._has_label = True
         self._insert_plot(np.array(x_data), np.array(y_data), fixed, color, c, marker, linestyle, ls, linewidth, lw, label)
 
     def scatter(self, x_data, y_data, fixed=False, color=None, c=None, marker=None, label=None):
         if not self._has_label:
-            if not isinstance(label, type(None)):
+            if isinstance(label, type(None)):
                 self._has_label = True
         self._insert_scatter(np.array(x_data), np.array(y_data), fixed, color, c, marker, label)
 
     def show(self, update_len=0.001, fixed_frame=True, frame_expand=0.2):
         plot_num = len(self._plot_storage['x'])
         scatter_num = len(self._scatter_storage['x'])
-        for index_data in range(self.max_data_num):
+        for index_data in range(self._max_data_num):
             plt.clf()
             for p in range(plot_num):
                 if self._plot_storage['fixed'][p]:
@@ -118,21 +118,21 @@ class AnimatedPlot():
         min_x, max_x = np.min(x), np.max(x)
         min_y, max_y = np.min(y), np.max(y)
 
-        if min_x < self.min_x:
-            self.min_x = min_x
-        if max_x > self.max_x:
-            self.max_x = max_x
-        if min_y < self.min_y:
-            self.min_y = min_y
-        if max_y > self.max_y:
-            self.max_y = max_y
-        if x.shape[0] > self.max_data_num:
-            self.max_data_num = x.shape[0]
+        if min_x < self._min_x:
+            self._min_x = min_x
+        if max_x > self._max_x:
+            self._max_x = max_x
+        if min_y < self._min_y:
+            self._min_y = min_y
+        if max_y > self._max_y:
+            self._max_y = max_y
+        if x.shape[0] > self._max_data_num:
+            self._max_data_num = x.shape[0]
 
     def _get_frame_size(self, frame_expand):
-        min_x = (1 - frame_expand * np.sign(self.min_x)) * self.min_x
-        max_x = (1 + frame_expand * np.sign(self.min_x)) * self.max_x
-        min_y = (1 - frame_expand * np.sign(self.min_y)) * self.min_y
-        max_y = (1 + frame_expand * np.sign(self.min_y)) * self.max_y
+        min_x = (1 - frame_expand * np.sign(self._min_x)) * self._min_x
+        max_x = (1 + frame_expand * np.sign(self._min_x)) * self._max_x
+        min_y = (1 - frame_expand * np.sign(self._min_y)) * self._min_y
+        max_y = (1 + frame_expand * np.sign(self._min_y)) * self._max_y
 
         return min_x, max_x, min_y, max_y
