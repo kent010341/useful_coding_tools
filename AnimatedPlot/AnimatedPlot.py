@@ -130,9 +130,9 @@ class AnimatedPlot():
             self.max_data_num = x.shape[0]
 
     def _get_frame_size(self, frame_expand):
-        min_x = (1 + frame_expand) * self.min_x
-        max_x = (1 + frame_expand) * self.max_x
-        min_y = (1 + frame_expand) * self.min_y
-        max_y = (1 + frame_expand) * self.max_y
+        min_x = (1 - frame_expand * np.sign(self.min_x)) * self.min_x
+        max_x = (1 + frame_expand * np.sign(self.min_x)) * self.max_x
+        min_y = (1 - frame_expand * np.sign(self.min_y)) * self.min_y
+        max_y = (1 + frame_expand * np.sign(self.min_y)) * self.max_y
 
         return min_x, max_x, min_y, max_y
