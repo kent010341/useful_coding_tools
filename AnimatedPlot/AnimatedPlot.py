@@ -29,13 +29,13 @@ class AnimatedPlot():
         else:
             raise ValueError('Too many parameters given.')
         if not self._has_label:
-            if isinstance(label, type(None)):
+            if not isinstance(label, type(None)):
                 self._has_label = True
         self._insert_plot(np.array(x_data), np.array(y_data), fixed, color, c, marker, linestyle, ls, linewidth, lw, label)
 
     def scatter(self, x_data, y_data, fixed=False, color=None, c=None, marker=None, label=None):
         if not self._has_label:
-            if isinstance(label, type(None)):
+            if not isinstance(label, type(None)):
                 self._has_label = True
         self._insert_scatter(np.array(x_data), np.array(y_data), fixed, color, c, marker, label)
 
