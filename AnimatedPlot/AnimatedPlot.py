@@ -19,6 +19,7 @@ class AnimatedPlot():
         self._max_y = -np.inf
         self._max_data_num = 0
         self._has_label = False
+        self._str_title = None
 
     def plot(self, *xy_data, fixed=False, color=None, c=None, marker=None, linestyle=None, ls=None, linewidth=None, lw=None, label=None):
         if len(xy_data) == 2:
@@ -38,6 +39,9 @@ class AnimatedPlot():
             if not isinstance(label, type(None)):
                 self._has_label = True
         self._insert_scatter(np.array(x_data), np.array(y_data), fixed, color, c, marker, label)
+
+    def title(self, str_title):
+        self._str_title = str_title
 
     def show(self, update_len=0.001, fixed_frame=True, frame_expand=0.2):
         plot_num = len(self._plot_storage['x'])
@@ -90,6 +94,8 @@ class AnimatedPlot():
                 plt.ylim(min_y, max_y)
 
             plt.grid()
+            if not isinstance(self._str_title, type(None)):
+                plt.title(self._str_title)
             if self._has_label:
                 plt.legend()
             plt.pause(update_len)
