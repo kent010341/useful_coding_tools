@@ -20,6 +20,8 @@ class AnimatedPlot():
         self._max_data_num = 0
         self._has_label = False
         self._str_title = None
+        self._str_xlabel = None
+        self._str_ylabel = None
 
     def plot(self, *xy_data, fixed=False, color=None, c=None, marker=None, linestyle=None, ls=None, linewidth=None, lw=None, label=None):
         if len(xy_data) == 2:
@@ -42,6 +44,12 @@ class AnimatedPlot():
 
     def title(self, str_title):
         self._str_title = str_title
+
+    def xlabel(self, str_xlabel):
+        self._str_xlabel = str_xlabel
+
+    def ylabel(self, str_ylabel):
+        self._str_ylabel = str_ylabel
 
     def show(self, update_len=0.001, fixed_frame=True, frame_expand=0.2):
         plot_num = len(self._plot_storage['x'])
@@ -96,6 +104,10 @@ class AnimatedPlot():
             plt.grid()
             if not isinstance(self._str_title, type(None)):
                 plt.title(self._str_title)
+            if not isinstance(self._str_xlabel, type(None)):
+                plt.xlabel(self._str_xlabel)
+            if not isinstance(self._str_ylabel, type(None)):
+                plt.ylabel(self._str_ylabel)
             if self._has_label:
                 plt.legend()
             plt.pause(update_len)
