@@ -20,6 +20,12 @@ AnimatedPlot is made for easily used to plot several lines or dots based on well
 * scatter(self, x_data, y_data, fixed=False, color=None, c=None, marker=None, label=None):
   * Most of the parameters are same as [matplotlib.pyplot.scatter](https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.scatter.html).
   * If the parameter **fixed** is True, scatter will be fully shown instead of animated updating.
+* title(self, str_title):
+  * Set the title.
+* xlabel(self, str_xlabel):
+  * Set the label of x axis.
+* ylabel(self, str_ylabel):
+  * Set the label of y axis.
 * show(self, update_len=0.001, fixed_frame=True, frame_expand=0.2):
   * update_len: Time paused between every frame updating. Unit: second.
   * fixed_frame: Use maximum and minimum value of x_data and y_data as frame size.
