@@ -4,4 +4,4 @@
 * DetailRecorder: Convenient recording tool.
 * ErrorCal: Regression loss calculating tool.
 * animated_plot: Animated showing plot or scatter. (Method version)
-* AnimatedPlot: Animated showing plot or scatter. (Class version)
+* AnimatedPlot: Animated showing plot or scatter. (Class version, recommended.)
