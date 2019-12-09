@@ -27,6 +27,14 @@ AnimatedPlot is made for easily used to plot several lines or dots based on well
 * ylabel(self, str_ylabel):
   * Set the label of y axis.
 * show(self, update_len=0.001, fixed_frame=True, frame_expand=0.2):
-  * update_len: Time paused between every frame updating. Unit: second.
-  * fixed_frame: Use maximum and minimum value of x_data and y_data as frame size.
-  * frame_expand: Expand the fixed frame by this rate. Currently doesn't work on 0.
+  * Showing the lines and scatters animatedly.
+    * update_len: Time paused between every frame updating. Unit: second.
+    * fixed_frame: Use maximum and minimum value of x_data and y_data as frame size.
+    * frame_expand: Expand the fixed frame by this rate. Currently doesn't work on 0.
+* save_gif(self, save_dir='./', use_time_as_name=True, file_name=None, interval=100, repeat_delay=1000):
+  * Save the animated plot as gif.
+    * save_dir: The folder that used to save the gif file.
+    * use_time_as_name: Using current time as file name.
+    * file_name: If use_time_as_name is False, file_name is needed to be set.
+    * interval: gif update interval. Change this to make it faster or slower.
+    * repeat_delay: gif update repeat delay.
