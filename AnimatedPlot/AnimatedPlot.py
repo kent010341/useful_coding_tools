@@ -1,5 +1,8 @@
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 import numpy as np
+import os
+from datetime import datetime
 
 class AnimatedPlot():
     def __init__(self):
@@ -112,6 +115,91 @@ class AnimatedPlot():
                 plt.legend()
             plt.pause(update_len)
 
+    def save_gif(self, save_dir='./', use_time_as_name=True, file_name=None, interval=100, repeat_delay=1000):
+        if use_time_as_name:
+            file_name = datetime.now().strftime('%Y%m%d_%H%M%S')
+        assert not isinstance(file_name, type(None)), 'file_name is necessary if use_time_as_name is False.'
+        
+        if file_name[-4:] != '.gif':
+            file_name += '.gif'
+        self._check_and_create_dir(save_dir)
+
+        # Generating list of plot objects
+        plot_num = len(self._plot_storage['x'])
+        scatter_num = len(self._scatter_storage['x'])
+
+        plt.close()
+        arr_plot_c = [plt.plot(1)[0].get_c() for i in range(plot_num)]
+        arr_scatter_c = [plt.plot(1)[0].get_c() for i in range(scatter_num)]
+        # Generating list of animation
+        fig = plt.figure()
+        ims = list()
+
+        for index_data in range(self._max_data_num):
+            temp_ims = list()
+            for p in range(plot_num):
+                label = self._plot_storage['label'][p] if index_data == 0 else None
+                if self._plot_storage['fixed'][p] or index_data >= self._plot_storage['data_num'][p]:
+                    temp_ims.append(
+                        plt.plot(
+                            self._plot_storage['x'][p],
+                            self._plot_storage['y'][p],
+                            c=arr_plot_c[p],
+                            marker=self._plot_storage['marker'][p],
+                            ls=self._plot_storage['ls'][p],
+                            lw=self._plot_storage['lw'][p],
+                            label=label
+                        )[0]
+                    )
+                else:
+                    temp_ims.append(
+                        plt.plot(
+                            self._plot_storage['x'][p][:index_data+1],
+                            self._plot_storage['y'][p][:index_data+1],
+                            c=arr_plot_c[p],
+                            marker=self._plot_storage['marker'][p],
+                            ls=self._plot_storage['ls'][p],
+                            lw=self._plot_storage['lw'][p],
+                            label=label
+                        )[0]
+                    )
+            for s in range(scatter_num):
+                label = self._scatter_storage['label'][s] if index_data == 0 else None
+                if self._scatter_storage['fixed'][s] or index_data >= self._scatter_storage['data_num'][s]:
+                    temp_ims.append(
+                        plt.scatter(
+                            self._scatter_storage['x'][s],
+                            self._scatter_storage['y'][s],
+                            c=arr_scatter_c[s],
+                            marker=self._scatter_storage['marker'][s],
+                            label=label
+                        )
+                    )
+                else:
+                    temp_ims.append(
+                        plt.scatter(
+                            self._scatter_storage['x'][s][:index_data+1],
+                            self._scatter_storage['y'][s][:index_data+1],
+                            c=arr_scatter_c[s],
+                            marker=self._scatter_storage['marker'][s],
+                            label=label
+                        )
+                    )
+            ims.append(temp_ims)
+
+        # Set figure detail.
+        plt.grid()
+        if not isinstance(self._str_title, type(None)):
+            plt.title(self._str_title)
+        if not isinstance(self._str_xlabel, type(None)):
+            plt.xlabel(self._str_xlabel)
+        if not isinstance(self._str_ylabel, type(None)):
+            plt.ylabel(self._str_ylabel)
+        if self._has_label:
+            plt.legend()
+        ani = animation.ArtistAnimation(fig, ims, interval=interval, repeat_delay=repeat_delay)
+        ani.save('{}/{}'.format(save_dir, file_name), writer='pillow')
+
     def _insert_plot(self, x, y, fixed, color, c, marker, linestyle, ls, linewidth, lw, label):
         _c = c if isinstance(color, type(None)) else color
         _ls = ls if isinstance(linestyle, type(None)) else linestyle
@@ -148,9 +236,33 @@ class AnimatedPlot():
             self._max_data_num = x.shape[0]
 
     def _get_frame_size(self, frame_expand):
-        min_x = (1 - frame_expand * np.sign(self._min_x)) * self._min_x
-        max_x = (1 + frame_expand * np.sign(self._min_x)) * self._max_x
-        min_y = (1 - frame_expand * np.sign(self._min_y)) * self._min_y
-        max_y = (1 + frame_expand * np.sign(self._min_y)) * self._max_y
+        x_range = abs(self._max_x - self._min_x)
+        y_range = abs(self._max_y - self._min_y)
+
+        if self._min_x != 0:
+            min_x = (1 - frame_expand * np.sign(self._min_x)) * self._min_x
+        else:
+            min_x = - x_range * frame_expand
+        if self._max_x != 0: 
+            max_x = (1 + frame_expand * np.sign(self._min_x)) * self._max_x
+        else:
+            max_x = x_range * frame_expand
+        if self._min_y != 0:
+            min_y = (1 - frame_expand * np.sign(self._min_y)) * self._min_y
+        else:
+            min_y = - y_range * frame_expand
+        if self._max_y != 0:
+            max_y = (1 + frame_expand * np.sign(self._min_y)) * self._max_y
+        else:
+            max_y = y_range * frame_expand
 
         return min_x, max_x, min_y, max_y
+
+    def _check_and_create_dir(self, detail_dir):
+        arr_folder = detail_dir.split('/')
+        current_dir = ''
+        for f in arr_folder:
+            current_dir += f
+            if not os.path.isdir(current_dir):
+                os.mkdir(current_dir)
+            current_dir += '/'
