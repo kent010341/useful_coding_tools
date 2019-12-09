@@ -124,7 +124,7 @@ class AnimatedPlot():
             file_name += '.gif'
         self._check_and_create_dir(save_dir)
 
-        # Generating list of plot objects
+        # Generating list of plot color
         plot_num = len(self._plot_storage['x'])
         scatter_num = len(self._scatter_storage['x'])
 
