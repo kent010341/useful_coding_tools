@@ -19,6 +19,11 @@
 * predict: array-like
   * Array of predictive values.
 
+### Methods:
+* insert_data(self, real, predict, minima=1e-6):
+  * Insert real and predict data.
+  * Parameter "minima" is set to prevent from divided by zero while calculating MAPE.
+
 ### Attributes:
 * MAE: float
   * Mean absolute error.
@@ -36,7 +41,8 @@
   * Return mean absolute error
 * cal_mse(real, predict):
   * Return mean square error.
-* cal_mape(real, predict):
+* cal_mape(real, predict, minima=1e-6):
   * Return mean absolute percentage error.
+  * Parameter "minima" is set to prevent from divided by zero while calculating MAPE.
 * cal_rmse(real, predict):
   * Return root mean square error.
