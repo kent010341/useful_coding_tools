@@ -25,14 +25,23 @@ def cal_mae(real, predict):
 def cal_rmse(real, predict):
     return cal_mse(real, predict) ** 0.5
 
-def cal_mape(real, predict):
+def cal_mape(real, predict, minima=1e-6):
     arr_real, arr_predict = _flatten(real, predict)
 
-    return np.mean(np.abs((arr_real - arr_predict) / arr_predict)) *100
+    # Deal with divided by 0
+    denominators = arr_real.copy()
+    condition = denominators == 0
+    denominators[condition] += minima
+
+    return np.mean(np.abs((arr_real - arr_predict) / denominators)) *100
 
 # Call Class. ==========================================================================================
 class ErrorCal():
-    def __init__(self, real, predict):
+    def __init__(self):
+        pass
+
+    def insert_data(self, real, predict, minima=1e-6):
+        self._minima = minima
         self._arr_real, self._arr_predict = self._flatten(real, predict)
         self._error_index()
 
@@ -55,13 +64,15 @@ class ErrorCal():
         for i in range(self._N):
             mae_val += error_arr[i]
             mse_val += error_arr[i] ** 2
-            #mape_val += error_arr[i] / self._arr_real[i]
-
+            if self._arr_real[i] != 0:
+                mape_val += error_arr[i] / self._arr_real[i]
+            else:
+                mape_val += error_arr[i] / self._minima
         # MAE
         self.MAE = mae_val / self._N
         # MSE
         self.MSE = mse_val / self._N
         # MAPE
-        self.MAPE = np.mean(error_arr/self._arr_predict) *100
+        self.MAPE = mape_val / self._N * 100
         # RMSE
         self.RMSE = np.sqrt(self.MSE)
